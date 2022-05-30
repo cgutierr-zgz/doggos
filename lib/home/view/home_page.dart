@@ -1,7 +1,9 @@
+import 'package:doggos/app/app.dart';
 import 'package:doggos/home/home.dart';
 import 'package:doggos/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatelessWidget {
@@ -144,9 +146,13 @@ class _HomeBody extends StatelessWidget {
                 icon: Icons.schedule_outlined,
               ),
               VerticalSpacer.xLarge(),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 100),
-                child: CustomButton(title: "Let's check!"),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 100),
+                child: CustomButton(
+                  title: "Let's check!",
+                  onPressed: () =>
+                      context.go('${AppRoutes.breed}/affenpinscher'),
+                ),
               ),
             ],
           );
