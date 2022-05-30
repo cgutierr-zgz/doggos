@@ -14,10 +14,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _dogsRepository = dogsRepository;
 
     on<FetchData>(_fetchingData);
+    on<UpdateData>(_updateData);
     on<ErrorFetching>(_fetchFailed);
   }
 
   late final DogsRepository _dogsRepository;
+
+  Future<void> _updateData(UpdateData event, Emitter emit) async {
+    emit(const LoadingState());
+    emit(
+      LoadedState(
+        breeds: event.breeds,
+        selectedValue: event.selectedValue,
+      ),
+    );
+  }
 
   Future<void> _fetchingData(FetchData event, Emitter emit) async {
     emit(const LoadingState());
@@ -27,7 +38,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       // Just to add some delay to the response
       await Future<void>.delayed(const Duration(milliseconds: 500));
-      emit(LoadedState(breeds: breeds));
+      emit(
+        LoadedState(
+          breeds: breeds,
+          selectedValue: breeds[0],
+        ),
+      );
     } catch (e) {
       add(ErrorFetching(exception: Exception(e)));
     }
@@ -36,5 +52,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _fetchFailed(ErrorFetching event, Emitter emit) async {
     log('Error: ${event.exception}');
     emit(ErrorState(exception: event.exception));
+  }
+
+  Future<String> fetchImage(String breed) async {
+    final response = _dogsRepository.fetchImage(breed);
+
+    return response;
   }
 }

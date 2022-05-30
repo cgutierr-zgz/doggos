@@ -22,8 +22,12 @@ class LoadingState extends HomeState {
 }
 
 class LoadedState extends HomeState {
-  const LoadedState({required this.breeds});
+  const LoadedState({
+    required this.breeds,
+    required this.selectedValue,
+  });
   final List<String> breeds;
+  final String selectedValue;
 
   @override
   List<Object> get props => [breeds];

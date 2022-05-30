@@ -4,34 +4,15 @@ import 'package:doggos/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc(
-        dogsRepository: DogsRepository(
-          dogsProvider: DogsProvider(
-            client: http.Client(),
-          ),
-        ),
-      ),
-      child: const _HomeView(),
-    );
-  }
+  State<HomePage> createState() => _HomeViewState();
 }
 
-class _HomeView extends StatefulWidget {
-  const _HomeView();
-
-  @override
-  State<_HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<_HomeView> {
+class _HomeViewState extends State<HomePage> {
   @override
   void initState() {
     context.read<HomeBloc>().add(const FetchData());
@@ -144,14 +125,21 @@ class _HomeBody extends StatelessWidget {
                 title: 'I wanna see a',
                 items: state.breeds,
                 icon: Icons.schedule_outlined,
+                onChanged: (newValue) => context.read<HomeBloc>().add(
+                      UpdateData(
+                        breeds: state.breeds,
+                        selectedValue: newValue!,
+                      ),
+                    ),
               ),
               VerticalSpacer.xLarge(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 100),
                 child: CustomButton(
                   title: "Let's check!",
-                  onPressed: () =>
-                      context.go('${AppRoutes.breed}/affenpinscher'),
+                  onPressed: () => context.push(
+                    '/${AppRoutes.breed.path}/${state.selectedValue}',
+                  ),
                 ),
               ),
             ],

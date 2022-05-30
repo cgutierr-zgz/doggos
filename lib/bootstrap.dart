@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
+import 'package:doggos/home/home.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 class AppBlocObserver extends BlocObserver {
   @override
@@ -26,7 +28,18 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await runZonedGuarded(
     () async {
       await BlocOverrides.runZoned(
-        () async => runApp(await builder()),
+        () async => runApp(
+          BlocProvider(
+            create: (context) => HomeBloc(
+              dogsRepository: DogsRepository(
+                dogsProvider: DogsProvider(
+                  client: http.Client(),
+                ),
+              ),
+            ),
+            child: await builder(),
+          ),
+        ),
         blocObserver: AppBlocObserver(),
       );
     },

@@ -15,6 +15,7 @@ class DogsRepository {
 
     final breeds = <String>[];
     if (json['status'] == 'success') {
+      // ignore: avoid_dynamic_calls
       json['message'].forEach((String k, dynamic v) => breeds.add(k));
 
       return breeds;

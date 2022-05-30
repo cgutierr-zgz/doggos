@@ -7,11 +7,13 @@ class CustomDropdown extends StatefulWidget {
     required this.title,
     required this.items,
     required this.icon,
+    this.onChanged,
   });
 
   final List<String> items;
   final IconData icon;
   final String title;
+  final void Function(String?)? onChanged;
 
   @override
   State<CustomDropdown> createState() => _CustomDropdownState();
@@ -103,7 +105,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 ),
               );
             }).toList(),
-            onChanged: (String? newValue) => setState(() => value = newValue!),
+            onChanged: (String? newValue) {
+              setState(() => value = newValue!);
+              widget.onChanged!(newValue);
+            },
           ),
         ),
       ],
