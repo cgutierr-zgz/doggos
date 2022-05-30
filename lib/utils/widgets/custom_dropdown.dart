@@ -21,7 +21,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
   late final String value;
   final spacing = const EdgeInsets.symmetric(
     horizontal: 20,
-    vertical: 10,
+    vertical: 5,
   );
 
   @override
