@@ -19,5 +19,5 @@ class ErrorFetching extends HomeEvent {
   final Exception exception;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [exception];
 }

@@ -154,6 +154,7 @@ class _HomeBody extends StatelessWidget {
           return Column(
             children: [
               const Text('Fetching data failed...'),
+              VerticalSpacer.medium(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 100),
                 child: CustomButton(

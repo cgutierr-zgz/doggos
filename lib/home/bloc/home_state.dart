@@ -13,6 +13,7 @@ class InitialState extends HomeState {
   @override
   List<Object> get props => [];
 }
+
 class LoadingState extends HomeState {
   const LoadingState();
 
@@ -25,7 +26,7 @@ class LoadedState extends HomeState {
   final List<String> breeds;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [breeds];
 }
 
 class ErrorState extends HomeState {
@@ -33,5 +34,5 @@ class ErrorState extends HomeState {
   final Exception exception;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [exception];
 }
