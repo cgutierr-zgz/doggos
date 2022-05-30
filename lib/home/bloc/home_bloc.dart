@@ -10,20 +10,24 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({required DogsRepository dogsRepository})
-      : super(const LoadingState()) {
+      : super(const InitialState()) {
     _dogsRepository = dogsRepository;
 
-    on<Fetching>(_fetchingData);
+    on<FetchData>(_fetchingData);
     on<ErrorFetching>(_fetchFailed);
   }
 
   late final DogsRepository _dogsRepository;
 
-  Future<void> _fetchingData(Fetching event, Emitter emit) async {
+  Future<void> _fetchingData(FetchData event, Emitter emit) async {
     emit(const LoadingState());
 
     try {
-      emit(const LoadedState());
+      final breeds = await _dogsRepository.fetchBreeds();
+
+      // Just to add some delay to the response
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+      emit(LoadedState(breeds: breeds));
     } catch (e) {
       add(ErrorFetching(exception: Exception(e)));
     }
@@ -32,6 +36,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _fetchFailed(ErrorFetching event, Emitter emit) async {
     log('Error: ${event.exception}');
     emit(ErrorState(exception: event.exception));
-    emit(const LoadingState());
   }
 }

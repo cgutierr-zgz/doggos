@@ -7,6 +7,12 @@ abstract class HomeState extends Equatable {
   List<Object> get props => [];
 }
 
+class InitialState extends HomeState {
+  const InitialState();
+
+  @override
+  List<Object> get props => [];
+}
 class LoadingState extends HomeState {
   const LoadingState();
 
@@ -15,7 +21,8 @@ class LoadingState extends HomeState {
 }
 
 class LoadedState extends HomeState {
-  const LoadedState();
+  const LoadedState({required this.breeds});
+  final List<String> breeds;
 
   @override
   List<Object> get props => [];

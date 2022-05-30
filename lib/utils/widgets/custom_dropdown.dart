@@ -18,7 +18,7 @@ class CustomDropdown extends StatefulWidget {
 }
 
 class _CustomDropdownState extends State<CustomDropdown> {
-  late final String value;
+  late String value;
   final spacing = const EdgeInsets.symmetric(
     horizontal: 20,
     vertical: 5,
@@ -90,11 +90,11 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 ),
               ),
             ),
-            items: widget.items.map((String items) {
+            items: widget.items.map((String item) {
               return DropdownMenuItem(
-                value: items,
+                value: item,
                 child: Text(
-                  items,
+                  item.toTitleCase(),
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.grey.shade800,

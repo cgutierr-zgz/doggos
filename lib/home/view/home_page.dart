@@ -17,93 +17,54 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      child: const HomeView(),
+      child: const _HomeView(),
     );
   }
 }
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class _HomeView extends StatefulWidget {
+  const _HomeView();
+
+  @override
+  State<_HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<_HomeView> {
+  @override
+  void initState() {
+    context.read<HomeBloc>().add(const FetchData());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final d = DogsRepository(
-      dogsProvider: DogsProvider(
-        client: http.Client(),
-      ),
-    )..fetchBreeds();
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
           const BackgroundBubble(),
-          BlocConsumer<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is ErrorState) {
-                CustomSnackBar.error(message: state.exception.toString())
-                    .show(context);
-              }
-            },
-            builder: (context, state) {
-              //if (state is LoadingState) {
-              //  return Center(
-              //    child: Column(
-              //      mainAxisAlignment: MainAxisAlignment.center,
-              //      children: [
-              //        const CircularProgressIndicator(color: AppColors.green),
-              //        VerticalSpacer.semi(),
-              //        const Text(
-              //          'Loading...',
-              //          style: TextStyle(
-              //            color: Colors.grey,
-              //            fontWeight: FontWeight.w600,
-              //          ),
-              //        ),
-              //      ],
-              //    ),
-              //  );
-              //}
-              return SafeArea(
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.person_outline,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                        // TODO(carlos): Add Route
-                        onPressed: () => throw UnimplementedError(),
-                      ),
+          SafeArea(
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.person_outline,
+                      size: 50,
+                      color: Colors.white,
                     ),
-                    VerticalSpacer.xLarge(),
-                    const Title(),
-                    const Spacer(),
-                    const CustomDropdown(
-                      title: 'City',
-                      items: ['Barcelona', 'Madrid', 'Zaragoza'],
-                      icon: Icons.place_outlined,
-                    ),
-                    VerticalSpacer.medium20(),
-                    const CustomDropdown(
-                      title: 'I wanna see a',
-                      // TODO: Fetch
-                      items: ['Dog1', 'Dog2', 'Dog3'],
-                      icon: Icons.schedule_outlined,
-                    ),
-                    VerticalSpacer.xLarge(),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 100),
-                      child: CustomButton(title: "Let's check!"),
-                    ),
-                    const Spacer(),
-                  ],
+                    // TODO(carlos): Add Route
+                    onPressed: () => throw UnimplementedError(),
+                  ),
                 ),
-              );
-            },
+                VerticalSpacer.xLarge(),
+                const _Title(),
+                const Spacer(),
+                const _HomeBody(),
+                const Spacer(),
+              ],
+            ),
           ),
         ],
       ),
@@ -111,8 +72,8 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class Title extends StatelessWidget {
-  const Title({super.key});
+class _Title extends StatelessWidget {
+  const _Title();
 
   static const _color = Colors.white;
   static const _textStyle = TextStyle(
@@ -151,6 +112,79 @@ class Title extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _HomeBody extends StatelessWidget {
+  const _HomeBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is ErrorState) {
+          CustomSnackBar.error(message: state.exception.toString())
+              .show(context);
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadedState) {
+          return Column(
+            children: [
+              const CustomDropdown(
+                title: 'City',
+                items: ['Barcelona', 'Madrid', 'Zaragoza'],
+                icon: Icons.place_outlined,
+              ),
+              VerticalSpacer.medium20(),
+              CustomDropdown(
+                title: 'I wanna see a',
+                items: state.breeds,
+                icon: Icons.schedule_outlined,
+              ),
+              VerticalSpacer.xLarge(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 100),
+                child: CustomButton(title: "Let's check!"),
+              ),
+            ],
+          );
+        } else if (state is ErrorState) {
+          return Column(
+            children: [
+              const Text('Fetching data failed...'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 100),
+                child: CustomButton(
+                  title: 'Retry?',
+                  onPressed: () =>
+                      context.read<HomeBloc>().add(const FetchData()),
+                ),
+              ),
+            ],
+          );
+        }
+
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(
+                color: AppColors.green,
+              ),
+              VerticalSpacer.semi(),
+              const Text(
+                'Loading...',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
