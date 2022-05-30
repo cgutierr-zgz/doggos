@@ -54,8 +54,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(ErrorState(exception: event.exception));
   }
 
-  Future<String> fetchImage(String breed) async {
-    final response = _dogsRepository.fetchImage(breed);
+  Future<List<dynamic>> fetchImages(String breed) async {
+    final response = await _dogsRepository.fetchImages(breed);
 
     return response;
   }

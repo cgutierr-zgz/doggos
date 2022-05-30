@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:doggos/home/home.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
 class AppBlocObserver extends BlocObserver {
@@ -24,6 +25,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
+  GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
 
   await runZonedGuarded(
     () async {

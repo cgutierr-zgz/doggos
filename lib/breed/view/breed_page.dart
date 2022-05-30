@@ -25,19 +25,7 @@ class BreedPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Text('You can select 3 of all options'),
-                Wrap(
-                  runSpacing: 10,
-                  spacing: 10,
-                  children: List.generate(
-                    10,
-                    (index) => DogImage(breed: breed),
-                  ),
-                )
-              ],
-            ),
+            child: DogImages(breed: breed),
           ),
         ),
       ),

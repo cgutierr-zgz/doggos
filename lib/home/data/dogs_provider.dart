@@ -10,15 +10,15 @@ class DogsProvider {
 
   Future<http.Response> getDoggos() async {
     final request = _client.get(Uri.parse(DogsEndpoints.allBreedsEndpoint));
-
     final response = await request;
+
     return response;
   }
 
   Future<http.Response> getPhotos(String breed) async {
     final request = _client.get(Uri.parse(DogsEndpoints.imageEnpoint(breed)));
-
     final response = await request;
+
     return response;
   }
 }

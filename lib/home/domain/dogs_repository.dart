@@ -26,13 +26,13 @@ class DogsRepository {
     }
   }
 
-  Future<String> fetchImage(String breed) async {
+  Future<List<dynamic>> fetchImages(String breed) async {
     final response = await _dogsProvider.getPhotos(breed);
 
     final json = jsonDecode(response.body) as Json;
 
     if (json['status'] == 'success') {
-      return json['message'] as String;
+      return json['message'] as List<dynamic>;
     } else if (json['status'] == 'error') {
       throw Exception(json['message']);
     } else {
