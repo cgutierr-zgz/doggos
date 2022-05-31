@@ -22,14 +22,16 @@ class CustomButton extends StatelessWidget {
         padding: EdgeInsets.zero,
       ),
       child: Ink(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              AppColors.green,
-              AppColors.blue,
+              if (onPressed != null) AppColors.green,
+              if (onPressed != null) AppColors.blue,
+              if (onPressed == null) Colors.grey.shade300,
+              if (onPressed == null) Colors.grey.shade400
             ],
           ),
-          borderRadius: BorderRadius.all(Radius.circular(80)),
+          borderRadius: const BorderRadius.all(Radius.circular(80)),
         ),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 15),

@@ -1,6 +1,7 @@
 enum AppRoutes {
   home('/', 'HOME'),
-  breed('breed', 'BREED');
+  breed('breed', 'BREED'),
+  checkOut('checkout', 'CHECKOUT');
 
   const AppRoutes(this.path, this.routeName);
 

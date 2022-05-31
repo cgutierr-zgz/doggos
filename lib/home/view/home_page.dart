@@ -21,80 +21,11 @@ class _HomeViewState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          const BackgroundBubble(),
-          SafeArea(
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.person_outline,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                    // TODO(carlos): Add Route
-                    onPressed: () => throw UnimplementedError(),
-                  ),
-                ),
-                VerticalSpacer.xLarge(),
-                const _Title(),
-                const Spacer(),
-                const _HomeBody(),
-                const Spacer(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Title extends StatelessWidget {
-  const _Title();
-
-  static const _color = Colors.white;
-  static const _textStyle = TextStyle(
-    color: _color,
-    fontSize: 30,
-    fontWeight: FontWeight.w600,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.auto_awesome, color: _color),
-            HorizontalSpacer.normal(),
-            const Text('Choose', style: _textStyle)
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('your doggy', style: _textStyle),
-            HorizontalSpacer.normal(),
-            const Icon(Icons.auto_awesome, color: _color),
-          ],
-        ),
-        VerticalSpacer.medium(),
-        const Text(
-          "Let's to complete the first steps",
-          style: TextStyle(
-            color: _color,
-            fontWeight: FontWeight.w300,
-            fontSize: 18,
-          ),
-        ),
-      ],
+    return const CustomBackground(
+      title: 'Choose',
+      subTitle: 'your doggy',
+      description: "Let's to complete the first steps",
+      body: _HomeBody(),
     );
   }
 }
