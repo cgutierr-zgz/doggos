@@ -1,9 +1,28 @@
 import 'package:doggos/breed/breed.dart';
+import 'package:doggos/breed/cubit/breed_cubit.dart';
 import 'package:doggos/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BreedPage extends StatelessWidget {
   const BreedPage({
+    super.key,
+    required this.breed,
+  });
+
+  final String breed;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => BreedCubit(),
+      child: BreedView(breed: breed),
+    );
+  }
+}
+
+class BreedView extends StatelessWidget {
+  const BreedView({
     super.key,
     required this.breed,
   });

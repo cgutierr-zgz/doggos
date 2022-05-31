@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
-part 'breed_state.dart';
+class BreedCubit extends Cubit<int> {
+  BreedCubit() : super(0);
 
-class BreedCubit extends Cubit<BreedState> {
-  BreedCubit() : super(BreedInitial());
+  void updateQuantity(int number) => emit(state + number);
 }

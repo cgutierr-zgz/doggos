@@ -36,19 +36,10 @@ class DogImages extends StatelessWidget {
             ],
           );
         } else {
-          return Container(
-            height: 150,
-            width: 150,
-            decoration: BoxDecoration(
-              color: AppColors.blue,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(50),
-              width: 30,
-              height: 30,
-              child: const CircularProgressIndicator(color: AppColors.green),
-            ),
+          return const SizedBox(
+            width: 30,
+            height: 30,
+            child: CircularProgressIndicator(color: AppColors.green),
           );
         }
       },

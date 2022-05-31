@@ -57,6 +57,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<List<dynamic>> fetchImages(String breed) async {
     final response = await _dogsRepository.fetchImages(breed);
 
+    // Just to add some delay to the response
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     return response;
   }
 }
